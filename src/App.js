@@ -3,7 +3,7 @@ import "./App.css";
 import Post from "./Post";
 import { db, auth } from "./firebase";
 import { collection, onSnapshot } from "firebase/firestore";
-// import InstagramEmbed from "react-instagram-embed";
+import { InstagramEmbed } from "react-social-media-embed";
 // import { ref, getDownloadURL, listAll } from "firebase/storage";
 import {
   createUserWithEmailAndPassword,
@@ -213,14 +213,22 @@ function App() {
           {posts.map((post) => (
             <Post
               key={post.id}
+              postId={post.id}
+              user = {user}
               username={post.username}
               caption={post.caption}
               imageurl={post.imageurl}
             />
           ))}
         </div>
-        <div className="app__postsRight">
-          <h6>Hello World   </h6>
+        <div
+          className="app__postsRight">
+          <InstagramEmbed
+            // url="https://www.instagram.com/p/CUbHfhpswxt/"
+            url="https://www.instagram.com/p/CzLtITqs1o6/?utm_source=ig_embed&amp;utm_campaign=loading"
+            // width={328}
+            captioned
+          />
         </div>
       </div>
     </div>

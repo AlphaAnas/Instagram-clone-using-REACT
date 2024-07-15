@@ -54,11 +54,21 @@
 }
 
 .app___posts{
-  padding:20px;
+  /* padding:20px; */
   margin-top: 20px;
   margin-left: auto;
   margin-right: auto;
+  max-width: 1000px;
+  display: flex;
+  justify-content: space-evenly;
+
+
+}
+.app__postsLeft{
   max-width: 600px;
-
-
+  min-width: 400px;
+}
+.app__postsRight{
+  margin-left: 20px;
+  max-width: 400px;
 }
