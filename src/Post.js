@@ -1,34 +1,48 @@
-import React,{useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "./Post.css";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import { db } from "./firebase";
-import { collection, doc, onSnapshot, Timestamp } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  onSnapshot,
+  Timestamp,
+  addDoc,
+  query,
+  orderBy,
+} from "firebase/firestore";
 
-function Post({ postId, user, username, caption, imageurl}) {
-
+function Post({ postId, user, username, caption, imageurl }) {
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
 
-  const postComment = (e) => {
+  const postComment = async (e) => {
     e.preventDefault();
-    // add comment to the database
+    console.log("This post comment function worked");
 
-    collection(db, "posts", postId, "comments").add({
-      comment: comment,
-      username: user.displayName,
-      timestamp : Timestamp.now(),
-    });
-    setComment("");
-  }
+    try {
+      await addDoc(collection(doc(db, "posts", postId), "comments"), {
+        comment: comment,
+        username: user.displayName,
+        timestamp: Timestamp.now(),
+      });
+      console.log("Username is : ", user.displayName);
+      setComment("");
+    } catch (error) {
+      console.error("Error adding comment: ", error);
+    }
+  };
+
   useEffect(() => {
     let unsubscribe;
 
     if (postId) {
       const postRef = doc(db, "posts", postId);
       const commentsRef = collection(postRef, "comments");
-      
-      unsubscribe = onSnapshot(commentsRef, (snapshot) => {
+      const q = query(commentsRef, orderBy("timestamp", "desc"));
+
+      unsubscribe = onSnapshot(q, (snapshot) => {
         setComments(snapshot.docs.map((doc) => doc.data()));
       });
     }
@@ -39,6 +53,7 @@ function Post({ postId, user, username, caption, imageurl}) {
       }
     };
   }, [postId]);
+
   return (
     <div className="post">
       <div className="post__header">
@@ -47,30 +62,37 @@ function Post({ postId, user, username, caption, imageurl}) {
         </Stack>
         <h3>{username}</h3>
       </div>
-      {/* /header = avatar + {username} */}
       <img className="post__image" src={imageurl} alt="main post image" />
-      {/* image */}
       <h4 className="post__text">
-        {" "}
         <strong>{username} </strong> {caption}
       </h4>
-      {/* username + caption  */}
       <div className="post__comments">
-          {comments.map((comment) => (
-            <p>
-              <strong>{comment.username}</strong> {comment.comment}
-            </p>
-          ))}
+        {comments.map((comment, index) => (
+          
+          <p key={index}>
+         
+            
+            <strong>{comment.username}</strong>: {comment.comment}
+       
+          </p>
+        ))}
       </div>
-      <form className="post__commentBox" action="">
-        <input className = "post__input" type="text"
+
+      {user && (
+
+        <form className="post__commentBox" onSubmit={postComment}>
+        <input
+          className="post__input"
+          type="text"
           placeholder="add a comment..."
-          value = {comment}
+          value={comment}
           onChange={(e) => setComment(e.target.value)}
-           />
-        <button className = "post__button" disabled={!comment} type="submit" onSubmit={postComment}>Post</button>
+          />
+        <button className="post__button" disabled={!comment} type="submit">
+          Post
+        </button>
       </form>
-      
+        )}
     </div>
   );
 }

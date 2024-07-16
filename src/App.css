@@ -7,6 +7,8 @@
   padding:20px;
 }
 .app__header{
+  position: sticky;
+  top: 0;
   /* always maintain the aspect ratio */
   background-color: white;
   /* padding adds the space on the borders while margin adds it around the image (bahar se) */
@@ -15,6 +17,7 @@
   object-fit: contain; 
   display: flex;
   justify-content: space-between; 
+
   /* z-index: 1; */
 
 }
@@ -66,7 +69,6 @@
 }
 .app__postsLeft{
   max-width: 600px;
-  min-width: 400px;
 }
 .app__postsRight{
   margin-left: 20px;

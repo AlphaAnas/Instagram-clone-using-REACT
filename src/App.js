@@ -19,6 +19,9 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { Input } from "@mui/material";
 
+
+
+
 // Modal style
 const style = {
   position: "absolute",
@@ -45,6 +48,7 @@ function App() {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
       if (authUser) {
         setUser(authUser);
+        console.log("User is: ", user);
       } else {
         setUser(null);
       }
@@ -98,14 +102,9 @@ function App() {
     }
   };
 
+
   return (
     <div className="app">
-      {user && user.email ? (
-        <ImageUpload username={user.displayName || "No username"} />
-      ) : (
-        <h3>Sorry, you need to login to upload</h3>
-      )}
-
       <div className="app__header">
         <img
           className="app__headerImage"
@@ -214,15 +213,14 @@ function App() {
             <Post
               key={post.id}
               postId={post.id}
-              user = {user}
+              user={user}
               username={post.username}
               caption={post.caption}
               imageurl={post.imageurl}
             />
           ))}
         </div>
-        <div
-          className="app__postsRight">
+        <div className="app__postsRight">
           <InstagramEmbed
             // url="https://www.instagram.com/p/CUbHfhpswxt/"
             url="https://www.instagram.com/p/CzLtITqs1o6/?utm_source=ig_embed&amp;utm_campaign=loading"
@@ -231,6 +229,13 @@ function App() {
           />
         </div>
       </div>
+
+      {/* the image upload option */}
+      {user && user.email ? (
+        <ImageUpload username={user.displayName || "No username"} />
+      ) : (
+        <h3>Sorry, you need to login to upload</h3>
+      )}
     </div>
   );
 }
