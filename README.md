@@ -2,7 +2,7 @@
 
 
 # Getting Started with Create React App
-
+I have hosted this site using Firebase at :https://instagram-clone-using-re-5c02a.web.app/
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
