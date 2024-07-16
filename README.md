@@ -4,7 +4,7 @@
 # Getting Started with Create React App
 I have hosted this site using Firebase at :https://instagram-clone-using-re-5c02a.web.app/
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
+Credits of the Project goes to creators of [this](https://www.youtube.com/watch?v=f7T48W0cwXM&t=5165s) video tutorial :
 ## Available Scripts
 
 In the project directory, you can run:
